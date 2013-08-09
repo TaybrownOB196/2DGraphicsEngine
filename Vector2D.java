@@ -113,6 +113,7 @@ public class Vector2D
 		return new Vector2D(this.mVector2D[0], this.mVector2D[1]);
 	}
 	
+	//Converts an array of Vector2D objects into a vector matrix
 	public Matrix augmentVectorMatrix(Vector2D[] vList)
 	{
 		Matrix A = new Matrix(2, vList.length);
@@ -130,6 +131,7 @@ public class Vector2D
 		return A;
 	}
 	
+	//Converts a vector matrix into an array of Vector2D objects
 	public Vector2D[] VecMatrixToVeclist(Matrix vecMatrix)
 	{
 		Vector2D[] vecList = new Vector2D[vecMatrix.getLength()];
@@ -177,7 +179,7 @@ public class Vector2D
 		return (float)Math.sqrt(Math.pow(this.mVector2D[0],2) + Math.pow(this.mVector2D[1],2));
 	}
 	
-	public float angleBetweenVectorsD(Vector2D rhs)
+	public float degreesBetweenVectors(Vector2D rhs)
 	{
 		Vector2D temp = rhs.subtractVectors(this);
 		if(temp.magnitudeVector() == 0)
@@ -192,7 +194,8 @@ public class Vector2D
 		}
 	}
 	
-	public float angleBetweenVectorsR(Vector2D rhs)
+	
+	public float radiansBetweenVectors(Vector2D rhs)
 	{
 		Vector2D temp = rhs.subtractVectors(this);
 		if(temp.magnitudeVector() == 0)
@@ -207,7 +210,8 @@ public class Vector2D
 		}
 	}
 	
-	public Vector2D normalizeVector()//Turns the vector into a unit vector
+	//Returns the a Vector2D object as a unit vector
+	public Vector2D normalizeVector()
 	{
 		return new Vector2D(this.mVector2D[0]/(this.magnitudeVector()), this.mVector2D[1]/(this.magnitudeVector()));
 	}
@@ -222,11 +226,13 @@ public class Vector2D
 		return this.matrixTimesVector(scale);
 	}
 	
+	//Returns a Vector2D object perpindicular to the original (to the right)
 	public Vector2D perpRVector()
 	{
 		return new Vector2D(this.mVector2D[1], -this.mVector2D[0]);
 	}
 	
+	//Returns a Vector2D object perpindicular to the original (to the left)
 	public Vector2D perpLVector()
 	{
 		return new Vector2D(-this.mVector2D[1], this.mVector2D[0]);
@@ -293,8 +299,6 @@ public class Vector2D
 	public Vector2D rotateVectorAboutPoint(float degrees, float s, float t)
 	{
 		float xTrans = this.getX()-s, yTrans = this.getY()-t;
-		//float newX = (float)(Math.sqrt(Math.pow(xTrans, 2)+Math.pow(yTrans,2))*Math.cos(radians-Math.atan2(yTrans, xTrans))+s);
-		//float newY = (float)(Math.sqrt(Math.pow(xTrans, 2)+Math.pow(yTrans,2))*Math.sin(radians-Math.atan2(yTrans, xTrans))+t);
 		
 		return new Vector2D
 				(
@@ -307,8 +311,6 @@ public class Vector2D
 	public Vector2D rotateVectorAboutPoint(float degrees, Vector2D point)
 	{
 		float xTrans = this.getX()-point.getX(), yTrans = this.getY()-point.getY();
-		//float newX = (float)(Math.sqrt(Math.pow(xTrans, 2)+Math.pow(yTrans,2))*Math.cos(radians-Math.atan2(yTrans, xTrans))+s);
-		//float newY = (float)(Math.sqrt(Math.pow(xTrans, 2)+Math.pow(yTrans,2))*Math.sin(radians-Math.atan2(yTrans, xTrans))+t);
 		
 		return new Vector2D
 				(
@@ -317,6 +319,7 @@ public class Vector2D
 				);
 	}
 	
+	//Multiplies a Matrix object times a Vector2D object, and returns the product
 	public Vector2D matrixTimesVector(Matrix A)
 	{
 		Vector2D v = new Vector2D();
@@ -328,7 +331,7 @@ public class Vector2D
 		
 		return v;
 	}
-	
+	//Does the math behind the scenes for the above function
 	private float returnMultiple(Matrix A, Vector2D v, int row)
 	{
 		float multiple = 0;
@@ -341,12 +344,13 @@ public class Vector2D
 		return multiple;
 	}
 	
+	//Returns a Vector2D object into a Vector3D object
 	public Vector3D R2toR3Vector()
 	{
 		return new Vector3D(this.mVector2D[0], this.mVector2D[1], 1);
 	}
 	
-  
+  	//Converts a Vector2D array into a Matrix with dimensions (3x#of Vector2D objects in the array)
 	public Matrix vectorMatrixR2toR3(Vector2D[] vecList)
 	{
 		Matrix A = this.augmentVectorMatrix(vecList);
@@ -366,7 +370,7 @@ public class Vector2D
 		return B;
 	}
 	
-  //Converts a 2D vector matrix into a 3D vector matrix
+  	
 	public Matrix vectorMatrixR2toR3(Matrix vecMatrix)
 	{
 		Matrix B = new Matrix(3, vecMatrix.getLength());
@@ -385,8 +389,8 @@ public class Vector2D
 		return B;
 	}
 	
-  //Determines if Lines AB and CD intersect each other
-  //Returns the intersection point if they do intersect
+  	//Determines if Lines AB and CD intersect each other
+  	//Returns the intersection point if they do intersect
 	public Vector2D intersectionPoint(Vector2D A, Vector2D B, Vector2D C, Vector2D D)
 	{
 		float tX, tY, sX, sY, val1, val2, val3, scalar;
